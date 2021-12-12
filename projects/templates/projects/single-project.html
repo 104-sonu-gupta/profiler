@@ -1,0 +1,20 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+
+    
+    <h1>{{ project.title }}</h1>
+    <h2>{{ project.id }}</h2>
+    <hr>
+    <p>{{ project.description }}</p>
+    <hr>
+    <p>{{ project.created.date }}</p>
+    {% for tag in project.tags.all %}
+        <span style="border : 1px solid black; word-spacing: 20px">{{tag}}</span>
+    {% endfor %}
+    <hr>
+
+    <img src="{{ project.featured_image.url }}" />
+ 
+
+{% endblock content %}
