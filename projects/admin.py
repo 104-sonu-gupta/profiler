@@ -6,6 +6,7 @@ from .models import *
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['id', 'title','created']
+    ordering = ['-created']
 
     class Meta:
         model = Project 

@@ -14,7 +14,7 @@ def project(request, id):
 
 
 def projects(request):
-    queryset = Project.objects.all()
+    queryset = Project.objects.all().order_by('-created')
 
     context = {
         'projects': queryset,
