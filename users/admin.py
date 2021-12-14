@@ -4,5 +4,8 @@ from .models import userProfile, Skill
 
 # Register your models here.
 
-admin.site.register(userProfile)
+@admin.register(userProfile)
+class userProfileAdmin(admin.ModelAdmin):
+    readonly_fields = ['username']
+
 admin.site.register(Skill)

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+{% if page == 'login' %}
+    <div class="auth">
+        <div class="card">
+            <div class="auth__header text-center">
+                <a href="/"><img src="{% static 'img/icon.svg' %}" alt="icon" /></a>
+                <h3>Account Login</h3>
+                <p>Hello Developer, Welcome Back!</p>
+            </div>
+        
+            <form action="{% url 'login' %} " method="POST" class="form auth__form"> {% csrf_token %}
+                
+                <!-- Input:Email -->
+                <div class="form__field">
+                    <label for="username">Username: </label>
+                    <input class="input input--text" id="username" type="text" name="username" placeholder="Enter username " />
+                </div>
+    
+                <!-- Input:Password -->
+                <div class="form__field">
+                    <label for="password">Password: </label>
+                    <input class="input input--password" id="password" type="password" name="password" placeholder="Enter password " />
+                </div>
+                
+                <div class="auth__actions">
+                    <input class="btn btn--sub btn--lg" type="submit" value="Log In" />
+                    <a href="#">Forget Password?</a>
+                </div>
+            </form>
+            
+            <div class="auth__alternative">
+                <p>Don't have an Account? <a href="{% url 'register' %}">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+    <br><br><br><br><br><br><br><br>
+    <div class="auth">
+        <div class="card">
+            <div class="auth__header text-center">
+                <a href="/"><img src="{% static 'img/icon.svg' %}" alt="icon" /></a>
+                <h3>Account SignUp</h3>
+                <p>Create a new developer account</p>
+            </div>
+            <form action="{% url 'register' %}" method="POST"> {% csrf_token %} 
+
+                {% for field in form %}
+                    <div class="form__field">
+                        <label for="formInput#text">{{ field.label_tag }} :</label>
+                        {{ field }}
+                        
+                        {% comment %} {% if field.help_text %}
+                            <small style="font-size : 12px;">{{field.help_text}}</small>
+                        {% endif %} {% endcomment %}
+
+                        {% for error in field.errors %}
+                            <small style="color:red;"> {{error}} </small>
+                        {% endfor %}
+
+
+                    </div>
+                {% endfor %}
+                
+                <div class="auth__actions">
+                    <input class="btn btn--sub btn--lg" type="submit" value="Register Me" />
+                </div>
+            </form>
+            
+            <div class="auth__alternative">
+                <p>Already have an Account? <a href="{% url 'login' %}"> Log In</a></p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<br><br><br><br><br><br><br><br>
+{% endblock content %}
