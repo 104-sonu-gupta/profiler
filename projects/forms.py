@@ -9,7 +9,7 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
-        exclude = ['vote_count', 'vote_ratio']
+        exclude = ['vote_count', 'vote_ratio', 'owner']
         # OR this ↓↓ same thing bas above me likhna kam padega
         # fields = ['title', 'description', 'demo_link', 'source_link','featured_image', 'tags']
 

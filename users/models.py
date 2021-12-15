@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class userProfile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    user  = models.OneToOneField(User, on_delete=models.CASCADE)
+    user  = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     username  = models.CharField(max_length=255, null=True, blank=True)
     location  = models.CharField(max_length=255, null=True, blank=True)
     name  = models.CharField(max_length=255, null=True, blank=True)
@@ -15,11 +15,11 @@ class userProfile(models.Model):
     headline = models.CharField(max_length=255,null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to = 'profiles/', default = 'profiles/userDefault.png')
-    social_github = models.URLField(max_length=255, null=True, blank=True)
-    social_twitter = models.URLField(max_length=255, null=True, blank=True)
-    social_linkedin = models.URLField(max_length=255, null=True, blank=True)
-    social_youtube = models.URLField(max_length=255, null=True, blank=True)
-    social_website = models.URLField(max_length=255, null=True, blank=True)
+    social_github = models.CharField(max_length=255, null=True, blank=True)
+    social_twitter = models.CharField(max_length=255, null=True, blank=True)
+    social_linkedin = models.CharField(max_length=255, null=True, blank=True)
+    social_youtube = models.CharField(max_length=255, null=True, blank=True)
+    social_website = models.CharField(max_length=255, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -27,7 +27,7 @@ class userProfile(models.Model):
         verbose_name_plural = ("userProfiles")
 
     def __str__(self):
-        return self.user.username
+        return self.username
 
     
 class Skill(models.Model):

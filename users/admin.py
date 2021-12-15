@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import fields
 
 from .models import userProfile, Skill
 
@@ -8,4 +9,8 @@ from .models import userProfile, Skill
 class userProfileAdmin(admin.ModelAdmin):
     readonly_fields = ['username']
 
-admin.site.register(Skill)
+
+@admin.register(Skill)
+class SkillAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Skill._meta.fields if field.name!='description']
+

@@ -50,13 +50,9 @@
 
                 {% for field in form %}
                     <div class="form__field">
-                        <label for="formInput#text">{{ field.label_tag }} :</label>
+                        {{ field.label_tag }}
                         {{ field }}
                         
-                        {% comment %} {% if field.help_text %}
-                            <small style="font-size : 12px;">{{field.help_text}}</small>
-                        {% endif %} {% endcomment %}
-
                         {% for error in field.errors %}
                             <small style="color:red;"> {{error}} </small>
                         {% endfor %}
@@ -75,6 +71,6 @@
             </div>
         </div>
     </div>
+    <br><br><br><br><br><br><br><br>
 {% endif %}
-<br><br><br><br><br><br><br><br>
 {% endblock content %}

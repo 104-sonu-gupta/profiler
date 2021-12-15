@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render
 from .forms import ProjectForm
 from projects.models import Project
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -25,40 +27,58 @@ def projects(request):
 
 @login_required(login_url='login')
 def createProject(request):
-
+    developer = request.user.profile
     form = ProjectForm()
     if request.method == 'POST':
-        form = ProjectForm(request.POST , request.FILES)
+        form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('projects')
+            project_instance = form.save(commit=False)
+            project_instance.owner = developer
+            project_instance.save()
+            messages.success(request, ("Project added successfully !"))
+            return redirect('account')
+        else:
+            messages.error(
+                request, ("Something went wrong, project was not added !"))
 
     content = {'form': form}
     return render(request, 'projects/new-project.html', content)
 
-  
+
 @login_required(login_url='login')
 def updateProject(request, id):
-    queryset = Project.objects.get(pk=id)
-    form = ProjectForm(instance = queryset)
+    profile = request.user.profile
+    project = None
+    try:
+        project = profile.project_set.get(pk=id)
 
+    except ObjectDoesNotExist:
+        messages.error(request, "You are not authorised to edit this project")
+        return redirect('account')
+
+    form = ProjectForm(instance=project)
     if request.method == "POST":
-        form = ProjectForm(request.POST, request.FILES, instance=queryset)
+        form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             form.save()
-
-        return redirect('projects')
-        
-
-    content = {'form' : form}
+            messages.success(request, "Project updated !")
+        return redirect('account')
+    content = {'form': form}
     return render(request, 'projects/update.html', content)
-
 
 
 @login_required(login_url='login')
 def deleteProject(request, id):
+
+    # method 2 to check for correct user able to update project
+
     queryset = Project.objects.get(pk=id)
     if queryset:
+        if request.user.profile == queryset.owner:
+            messages.info(request, ("Project deleted !"))
             queryset.delete()
-    return redirect('projects')
+        else:
+            messages.error(
+                request, ("You are not authorised to delete this project !"))
 
+        return redirect('account')
