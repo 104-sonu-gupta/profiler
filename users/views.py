@@ -1,13 +1,13 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import CustomRegistrationForm, SkillForm, userProfileForm
-from .models import userProfile
-from projects.models import Project
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.shortcuts import render, redirect
+from .forms import *
+from .models import *
+from projects.models import Project
+from .utils import SearchDeveloper
 
 def loginPage(request):
 
@@ -17,14 +17,11 @@ def loginPage(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-
         try:
             user = User.objects.get(username=username)
         except:
             messages.error(request, ('Username does not exists'))
-
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request, user)
             messages.success(request, ('Logged In Successfully! '))
@@ -67,12 +64,11 @@ def registerUser(request):
 
 
 def profiles(request):
-    queryset = userProfile.objects.all()
-    # skill = Skill.objects.get
+    profiles, search_query = SearchDeveloper(request)
     context = {
-        'profiles': queryset
+        'profiles': profiles,
+        'search_query' : search_query
     }
-
     return render(request, 'profiles.html', context)
 
 

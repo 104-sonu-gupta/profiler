@@ -4,7 +4,7 @@ from projects.models import Project
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-
+from .utils import SearchProject
 # Create your views here.
 
 
@@ -17,10 +17,10 @@ def project(request, id):
 
 
 def projects(request):
-    queryset = Project.objects.all().order_by('-created')
-
+    projects, search_query = SearchProject(request)
     context = {
-        'projects': queryset,
+        'projects': projects,
+        'search_query' : search_query,
     }
     return render(request, 'projects/projects.html', context)
 
