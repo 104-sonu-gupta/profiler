@@ -19,7 +19,7 @@ def project(request, id):
 def projects(request):
     projects, search_query = SearchProject(request)
     
-    paginator = Paginator(projects, 3)
+    paginator = Paginator(projects, 6)
     page = request.GET.get('page')
     
     projects = paginator.get_page(page)
