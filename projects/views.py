@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from .utils import SearchProject
-# Create your views here.
 
+from django.core.paginator import Paginator
 
 def project(request, id):
     queryset = Project.objects.get(pk=id)
@@ -18,6 +18,12 @@ def project(request, id):
 
 def projects(request):
     projects, search_query = SearchProject(request)
+    
+    paginator = Paginator(projects, 3)
+    page = request.GET.get('page')
+    
+    projects = paginator.get_page(page)
+
     context = {
         'projects': projects,
         'search_query' : search_query,

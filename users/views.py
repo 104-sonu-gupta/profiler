@@ -7,13 +7,13 @@ from django.shortcuts import render, redirect
 from .forms import *
 from .models import *
 from projects.models import Project
-from .utils import SearchDeveloper
+from .utils import *
 
 def loginPage(request):
 
     if request.user.is_authenticated:
         return redirect('account')
-
+    username = ''
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -27,10 +27,11 @@ def loginPage(request):
             messages.success(request, ('Logged In Successfully! '))
             return redirect('account')
         else:
-            messages.error(request, ('Username or passsword is incorrect'))
+            messages.error(request, ('Incorrect Passsword !'))
 
     context = {
         'page': 'login',
+        'username' : username, 
     }
     return render(request, 'login_register.html', context)
 
@@ -65,10 +66,14 @@ def registerUser(request):
 
 def profiles(request):
     profiles, search_query = SearchDeveloper(request)
+    custom_range, profiles = paginateProfiles(request, profiles, 3)
+    
     context = {
-        'profiles': profiles,
-        'search_query' : search_query
+        'profiles': profiles, 
+        'search_query': search_query,
+        'custom_range': custom_range,
     }
+    
     return render(request, 'profiles.html', context)
 
 
@@ -109,7 +114,10 @@ def editAccount(request):
         form = userProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
+            messages.success(request, ("Profile updated !"))
             return redirect('account')
+        else:
+            messages.error(request, ("Something went wrong, try again !"))
 
     context = {
         'form': form,
