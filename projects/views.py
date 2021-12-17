@@ -1,17 +1,53 @@
-from django.shortcuts import redirect, render
-from .forms import ProjectForm
-from projects.models import Project
+from django.shortcuts import redirect, render, HttpResponseRedirect
+from .forms import ProjectForm, ReviewForm
+from projects.models import Project, Review
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from .utils import SearchProject
-
+from django.db import IntegrityError
 from django.core.paginator import Paginator
 
+
 def project(request, id):
-    queryset = Project.objects.get(pk=id)
+    curr_project = Project.objects.get(pk=id)
+    form = ReviewForm()
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid() and request.user.is_authenticated:
+            review = form.save(commit=False)
+
+            # Check that current user cannot vote his own project
+            if request.user.profile == curr_project.owner:
+                print(request.user, curr_project.owner)
+                messages.error(request, 'You cannot vote your own project !!')
+            
+            else:
+                try:
+                    review.owner = request.user.profile
+                    review.project = Project.objects.get(pk=id)
+                    review.save()
+                    messages.success(request, ("Review added !"))
+                    # Update vote count, we can simply call the updateVote function which is set as property
+                    curr_project.updateVote
+
+                except IntegrityError:
+                    messages.info(request, 'You have already voted')
+            
+            return HttpResponseRedirect('/projects/project/%s'%id)
+        else:
+            messages.error(request, ("You must be logged in to comment !"))
+            return redirect('login')
+            
+
+
+
+    reviews = Review.objects.filter(project__id = id)
     context = {
-        'project': queryset,
+        'project': curr_project,
+        'reviews': reviews,
+        'form' : form, 
     }
     return render(request, 'projects/single-project.html', context)
 

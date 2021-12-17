@@ -46,33 +46,36 @@
                         {{ project.vote_ratio }}% Postitive Feedback ({{project.vote_count}} Vote{{ project.vote_count|pluralize:",s" }})
                     </h5>
 
-                    <form class="form" action="#" method="POST">
-                        <!-- Textarea -->
+                    <!--{% if request.user.profile.id not in project.reviewers %}   {% endif %} -->
+
+                    <form action="{% url 'single-project' project.id %}" method="POST">    {% csrf_token %}
                         <div class="form__field">
-                            <label for="formInput#textarea">Comments: </label>
-                            <textarea class="input input--textarea" name="message" id="formInput#textarea"
-                                placeholder="Write your comments here..."></textarea>
+                            <label for="id_value">{{ form.value.label }} </label>
+                            {{ form.value }}
                         </div>
-                        <input class="btn btn--sub btn--lg" type="submit" value="Comments" />
+                        <div class="form__field">
+                            <label for="id_body">{{ form.body.label }} </label>
+                            {{ form.body }}
+                        </div>
+                        <input class="btn btn--sub btn--lg" type="submit" value="Add review" />
                     </form>
+
+
                     <div class="commentList">
-                        <div class="comment">
-                            <a href="profile.html">
-                                <img class="avatar avatar--md"
-                                    src="https://pbs.twimg.com/profile_images/1335382240931368961/b3wSZKj4_400x400.jpg"
-                                    alt="user" />
-                            </a>
-                            <div class="comment__details">
-                                <a href="profile.html" class="comment__author">Sulamita Ivanov</a>
-                                <p class="comment__info">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit alias numquam
-                                    perferendis
-                                    mollitia minus minima exercitationem possimus ab deserunt qui, soluta iusto
-                                    doloribus eveniet
-                                    similique consequuntur ratione, dignissimos ut magni laborum quo.
-                                </p>
-                            </div>
-                        </div>
+
+                        {% for review in reviews %}
+                            {% if review.body %}
+                                <div class="comment">
+                                    <a href="{% url 'user-profile' review.owner.id %}">
+                                        <img class="avatar avatar--md" src="{{ review.owner.profile_pic.url }}" alt="user" />
+                                    </a>
+                                    <div class="comment__details">
+                                        <a href="{% url 'user-profile' review.owner_id %}" class="comment__author">{{review.owner.name}}</a>
+                                        <p class="comment__info"> {{ review.body|linebreaksbr }} </p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>

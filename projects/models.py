@@ -20,10 +20,30 @@ class Project(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    class Meta:
+        ordering = ['-vote_ratio', '-vote_count', '-created']
+
+    
+    # so that we dont need to query it as a function in project view
+    @property                   
+    def updateVote(self):
+        reviewsCount = self.review_set.all()
+        upVotes = reviewsCount.filter(value='up').count()
+        totalVotes = reviewsCount.count()
+        self.vote_ratio = (upVotes / totalVotes) * 100
+        self.vote_count = totalVotes
+        self.save()
+
+    # to return all the profiles / users who have voted curr project
+    # Did this using user.is_autheniticated
+    # @property
+    # def reviewers(self):                                         # ensure that it is a simple list
+    #     queryset = self.review_set.all().values_list('owner__id', flat=True)
+    #     return queryset
 
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    #  owner =
+    owner = models.ForeignKey(userProfile, on_delete=models.CASCADE, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     body = models.TextField(null=True, blank=True)
 
@@ -34,6 +54,12 @@ class Review(models.Model):
 
     value = models.CharField(max_length=2, choices=VOTE_TYPE)
     created = models.DateTimeField(auto_now_add=True)
+
+    # we want to ensure that a particular user can only write one review for a particular project
+    # so basically we want to combine owner and project as a single unique contraint
+
+    class Meta:
+        unique_together = [['owner', 'project']]
 
     def __str__(self) -> str:
         return self.value
@@ -46,3 +72,5 @@ class Tag(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+

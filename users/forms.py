@@ -2,7 +2,7 @@ from django.forms import ModelForm, widgets
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import userProfile, Skill
+from .models import *
 
 
 class CustomRegistrationForm(UserCreationForm):
@@ -68,3 +68,15 @@ class SkillForm(ModelForm):
             'name': forms.TextInput(attrs={'class': "input", 'placeholder': 'Enter skill name'}),
             'description': forms.Textarea(attrs={'class': "input", 'placeholder': 'Enter description (if any)'}),
         }
+
+class MessageForm(ModelForm):
+    
+    class Meta:
+        model = Message
+        fields = ['name', 'email' , 'title', 'body']
+    
+    def __init__(self, *args, **kwargs):
+        super(MessageForm, self).__init__(*args, **kwargs)
+        
+        for key, value in self.fields.items():  
+            value.widget.attrs.update({'class': 'input input--text'})

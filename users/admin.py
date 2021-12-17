@@ -1,13 +1,17 @@
 from django.contrib import admin
 from django.db.models import fields
 
-from .models import userProfile, Skill
+from .models import *
 
 # Register your models here.
 
 @admin.register(userProfile)
 class userProfileAdmin(admin.ModelAdmin):
     readonly_fields = ['username']
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(Skill)

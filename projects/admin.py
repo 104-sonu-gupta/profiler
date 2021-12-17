@@ -5,8 +5,8 @@ from .models import *
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title','created']
-    ordering = ['-created']
+    list_display = ['id', 'owner', 'title','created']
+    
 
     class Meta:
         model = Project 
@@ -14,7 +14,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['id', 'project', 'body','value', 'created']
+    list_display = ['id', 'owner', 'project', 'body','value', 'created']
 
 
 @admin.register(Tag)

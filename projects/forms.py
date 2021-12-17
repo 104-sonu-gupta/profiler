@@ -1,8 +1,9 @@
 from django.db import models
+from django.db.models import fields
 from django.forms import ModelForm, widgets
 from django import forms            # for customizing classes and fields of form
 
-from .models import Project
+from .models import Project, Review
 
 class ProjectForm(ModelForm):
     
@@ -27,3 +28,19 @@ class ProjectForm(ModelForm):
             value.widget.attrs.update({'class': 'input'})
         
         # self.fields['demo_link'].widget.attrs.update({'class' : 'input', 'placeholder' : 'Enter link'})       individual field update
+
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['value', 'body']
+        labels = {
+            'value': 'Place your vote',
+            'body': 'Add a comment to your vote',
+        }
+        widgets = {
+            'value'  : forms.Select(attrs={'class': "input"}),
+            'body' : forms.Textarea(attrs={'class': "input  input--text", 'placeholder':'Enter review'}),
+        }
+
+ 

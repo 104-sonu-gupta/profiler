@@ -8,6 +8,8 @@ from .forms import *
 from .models import *
 from projects.models import Project
 from .utils import *
+from datetime import datetime
+
 
 def loginPage(request):
 
@@ -25,7 +27,7 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             messages.success(request, ('Logged In Successfully! '))
-            return redirect('account')
+            return redirect(request.GET['next'] if 'next' in request.GET else 'account')
         else:
             messages.error(request, ('Incorrect Passsword !'))
 
@@ -131,12 +133,17 @@ def addSkill(request):
     form = SkillForm()
     if request.method == 'POST':
         form = SkillForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() :
             skill_instance = form.save(commit=False)
             skill_instance.owner = profile
-            skill_instance.save()
+            if skill_instance.name:
+                skill_instance.save()
+                messages.success(request, ("Skill added successfully !"))
+            else:
+                messages.error(request, ("Empty skill not allowed !"))
 
-            messages.success(request, ("Skill added successfully !"))
+
+
             return redirect('account')
         else:
             messages.error(request, ("Something went wrong, try again !"))
@@ -171,7 +178,7 @@ def editSkill(request, id):
     }
     return render(request, 'skill_form.html', content)
 
-
+@login_required(login_url='login')
 def deleteSkill(request, id):
     profile = request.user.profile
     skill = None
@@ -186,3 +193,56 @@ def deleteSkill(request, id):
         skill.delete()
         
     return redirect('account')
+
+@login_required(login_url='login')
+def inbox(request):
+    profile = request.user.profile
+    inbox = profile.messages.all()
+    unread_count = inbox.filter(is_read=False).count()
+    
+    content={
+        'inbox' : inbox, 
+        'unread_count': unread_count,
+    }
+    return render(request, 'inbox.html', content)
+
+
+@login_required(login_url='login')
+def viewMessage(request, id):
+    profile = request.user.profile
+    userMessage = profile.messages.get(pk=id)
+    userMessage.is_read = True
+    userMessage.read_at = datetime.now()
+    userMessage.save()
+    content = {
+        'message' : userMessage
+    }
+    return render(request, 'message.html', content)
+
+
+def sendMessage(request, pk):
+    recipient = userProfile.objects.get(id=pk)
+    form = MessageForm()
+
+    try:
+        sender = request.user.profile
+    except:
+        sender = None
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = sender
+            message.reciever = recipient
+
+            if sender:
+                message.name = sender.name
+                message.email = sender.email
+            message.save()
+
+            messages.success(request, 'Your message was successfully sent!')
+            return redirect('user-profile', id=recipient.id)
+
+    context = {'recipient': recipient, 'form': form}
+    return render(request, 'message_form.html', context)

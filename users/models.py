@@ -40,3 +40,24 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
+class Message(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+     
+    # setting null because if sender delete hi account then receiver should have the message intact
+    sender = models.ForeignKey(userProfile, on_delete=models.SET_NULL, null=True, blank=True) 
+    
+    # we have to add related name in one of these because 2 foreign keys are not allowed
+    reciever = models.ForeignKey(userProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='messages')
+    name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    body = models.TextField()
+    is_read = models.BooleanField(default=False, null=True)
+    read_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['is_read', '-created']
