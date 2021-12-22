@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Frontend | Login | Profiler</title>
+        <link rel="stylesheet" href="style.css" />
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+
+            .login {
+                width: 600px;
+                padding: 8% 0 0;
+                margin: auto;
+                font-family: 'Comfortaa', cursive;
+            }
+
+            .form {
+                position: relative;
+                z-index: 1;
+                background: #ffffff;
+                border-radius: 10px;
+                max-width: 360px;
+                margin: 0 auto 100px;
+                padding: 45px;
+                text-align: center;
+            }
+
+            .form input {
+                outline: 0;
+                background: #f2f2f2;
+                width: 100%;
+                border: 0;
+                border-radius: 5px;
+                margin: 15px 0 15px;
+                padding: 15px;
+                box-sizing: border-box;
+                font-size: 14px;
+                font-family: 'Comfortaa', cursive;
+            }
+
+            .form input:focus {
+                background: #dbdbdb;
+            }
+
+            .form button {
+                font-family: 'Comfortaa', cursive;
+                text-transform: uppercase;
+                outline: 0;
+                margin: 15px 0 15px;
+                background: #4b6cb7;
+                width: 100%;
+                border: 0;
+                border-radius: 5px;
+                padding: 15px;
+                color: #ffffff;
+                font-size: 14px;
+                -webkit-transition: all 0.3 ease;
+                transition: all 0.3 ease;
+                cursor: pointer;
+            }
+
+            .form button:active {
+                background: #395591;
+            }
+
+            .form span {
+                font-size: 75px;
+                color: #4b6cb7;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login">
+            <div class="form">
+                <span>Login</span><br/><br/><br/>
+                <form class="login-form" method="POST">
+                    <input type="text" name="username" placeholder="Enter username" required />
+                    <input type="password" name="password" placeholder="Enter password" required />
+                    <button type="submit" value="submit">Login</button>
+                </form>
+            </div>
+        </div>
+        <script>
+            let baseURL = 'http://127.0.0.1:8000';
+            let form = document.querySelector('.login-form');
+            form.addEventListener('submit', e => {
+                // prevent page from reloading
+                e.preventDefault();
+
+                let formData = {
+                    username: form.username.value,
+                    password: form.password.value,
+                };
+
+                fetch(`${baseURL}/api/users/token/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+
+                    body: JSON.stringify({
+                        username: formData['username'],
+                        password: formData['password'],
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('SUCCESS ', data);
+
+                        // set the access token to local storage
+
+                        if (data['access']) {
+                            localStorage.setItem('TOKEN', data['access']);
+                            setTimeout(function () {
+                                window.location.replace('http://127.0.0.1:5500');
+                            }, 1000);
+                        } else {
+                            alert('Username or password is incorrect');
+                        }
+                    });
+            });
+        </script>
+    </body>
+</html>

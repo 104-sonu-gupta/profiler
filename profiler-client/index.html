@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Frontend | Profiler</title>
+        <link rel="stylesheet" href="style.css" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="btns mt-2">
+                <a href="login.html"><button class="btn btn-primary">Login</button></a>
+                <a href=""><button class="btn btn-danger" onclick="logout()">Logout</button></a>
+            </div>
+            <h1 class="mt-2">Projects</h1><br><hr style="border: 1px solid black;">
+            <section id="projects_wrapper"></section>
+        </div>
+        <script type="text/javascript" src="script.js"></script>
+    </body>
+    <script>
+        function logout() {
+            if (localStorage.getItem('TOKEN')) {
+                localStorage.removeItem('TOKEN');
+            }
+        }
+    </script>
+</html>

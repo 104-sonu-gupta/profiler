@@ -35,7 +35,7 @@ class Project(models.Model):
         self.save()
 
     # to return all the profiles / users who have voted curr project
-    # Did this using user.is_autheniticated
+    # I did this using user.is_autheniticated, we can also do it like below
     # @property
     # def reviewers(self):                                         # ensure that it is a simple list
     #     queryset = self.review_set.all().values_list('owner__id', flat=True)
