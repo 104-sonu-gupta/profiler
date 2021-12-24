@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Update Project </h1>  
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <a class="backButton" href="{% url 'account' %}"><i class="im im-angle-left"></i></a>
+            <div class="auth__header text-center">
+                <h3>Update Project </h3>
+            </div>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="submit">
-    </form>
+            <form method="post" enctype="multipart/form-data"> {% csrf_token %} 
+                {% for field in form %}
+                
+                    <div class="form__field">
+                        <label for="formInput#text">{{ field.label }} </label>
+                        {{field}}
+                    </div>
+                    
+                {% endfor %}
+                <div class="form__field">
+                    <label for="tags#text">Tags</label>
+                    <textarea class="input" name="newtags" placeholder="Add tags here.. "></textarea>
+                </div>
+                <input class="btn btn--sub btn--lg my-md" type="submit" value="submit" />
+            </form>
+        </div>
+    </div>
+</main>
+
 
 {% endblock content %}

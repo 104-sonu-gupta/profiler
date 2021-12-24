@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from .forms import ProjectForm, ReviewForm
-from projects.models import Project, Review
+from projects.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -72,10 +72,19 @@ def createProject(request):
     developer = request.user.profile
     form = ProjectForm()
     if request.method == 'POST':
+        newtags = (request.POST['newtags']).replace(',', " ").split()
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project_instance = form.save(commit=False)
             project_instance.owner = developer
+
+            project_instance = form.save()
+            for tag in newtags:
+                tag = tag.upper()
+                curr_tag, created = Tag.objects.get_or_create(name = tag)
+                project_instance.tags.add(curr_tag)
+
+
             project_instance.save()
             messages.success(request, ("Project added successfully !"))
             return redirect('account')
@@ -100,11 +109,18 @@ def updateProject(request, id):
 
     form = ProjectForm(instance=project)
     if request.method == "POST":
+        # (use regex or replace for unknown input) 
+        newtags = (request.POST['newtags']).replace(',', " ").split()
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
-            form.save()
+            project = form.save()
+            for tag in newtags:
+                tag = tag.upper()
+                curr_tag, created = Tag.objects.get_or_create(name = tag)
+                project.tags.add(curr_tag)
             messages.success(request, "Project updated !")
         return redirect('account')
+
     content = {'form': form}
     return render(request, 'projects/update.html', content)
 
