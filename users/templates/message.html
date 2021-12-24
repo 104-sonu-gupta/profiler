@@ -1,24 +1,23 @@
-{% extends 'base.html' %} 
-
-{% block content %}
-
+{% extends 'base.html' %} {% block content %}
+<style>
+    
+</style>
 <main class="messagePage my-xl">
     <div class="content-box">
         <div class="message">
             <a class="backButton" href="{% url 'inbox' %}"><i class="im im-angle-left"></i></a>
             <h2 class="message__subject">{{ message.title }}</h2>
-            
-            {% if messsage.sender %}
-                <a href="{% url 'user-profile' message.sender.id %}" class="message__author">{{ message.name }}</a>
+
+            {% if sender_id %}
+            <a href="{% url 'user-profile' sender_id %}" class="message__author">{{ message.name }}</a>
             {% else %}
-                <a href="" class="message__author">{{ message.name }}</a>
+            <a href="" class="message__author unknown_user">{{ message.name }}</a>
             {% endif %}
-            
-            <p class="message__date"> {{ message.created }} </p>
-            <div class="message__body"> {{message.body|linebreaksbr}} </div>
+
+            <p class="message__date">{{ message.created }}</p>
+            <div class="message__body">{{message.body|linebreaksbr}}</div>
         </div>
     </div>
 </main>
 
 {% endblock content %}
-

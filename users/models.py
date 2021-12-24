@@ -31,6 +31,14 @@ class userProfile(models.Model):
     def __str__(self):
         return self.username
 
+    @property
+    def imageURL(self):
+        try:
+            url = self.profile_pic.url
+        except:
+            url = 'http://127.0.0.1:8000/img/profiles/userDefault.png'
+        return url
+
     
 class Skill(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)

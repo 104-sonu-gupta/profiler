@@ -46,3 +46,8 @@ for (let i = 0; i < tags.length; i++) {
             });
     });
 }
+
+let anonymous_sender = document.querySelector('.unknown_user');
+anonymous_sender.addEventListener('click', e => {
+    alert('This user is not registed with us');
+});

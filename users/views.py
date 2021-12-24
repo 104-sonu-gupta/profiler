@@ -181,18 +181,23 @@ def editSkill(request, id):
 @login_required(login_url='login')
 def deleteSkill(request, id):
     profile = request.user.profile
-    skill = None
     try:
         skill = profile.skill_set.get(pk=id)
+       
     except ObjectDoesNotExist:
         messages.error(request, "You are not authorised to delete this skill")
         return redirect('account')
 
     if request.method == 'POST':
-        messages.info(request, ("Skill deleted !"))
+        messages.info(request, (" Skill deleted !"))
         skill.delete()
-        
-    return redirect('account')
+        return redirect('account')
+
+    content = {
+        'type': 'skill',
+        'name' : skill.name
+    }
+    return render(request, 'confirm_delete.html', content)
 
 @login_required(login_url='login')
 def inbox(request):
@@ -214,8 +219,15 @@ def viewMessage(request, id):
     userMessage.is_read = True
     userMessage.read_at = datetime.now()
     userMessage.save()
+    
+    try:
+        sender_id = userMessage.sender.id
+    except:
+        sender_id = ''
+    
     content = {
-        'message' : userMessage
+        'message' : userMessage,
+        'sender_id' : sender_id,
     }
     return render(request, 'message.html', content)
 

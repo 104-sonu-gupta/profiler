@@ -132,14 +132,24 @@ def updateProject(request, id):
 def deleteProject(request, id):
 
     # method 2 to check for correct user able to update project
+    # 
+    try:
+        project = Project.objects.get(pk=id)
+    except:
+        messages.error(request, ("Project doesn't exists !"))
+        return redirect('account')
 
-    queryset = Project.objects.get(pk=id)
-    if queryset:
-        if request.user.profile == queryset.owner:
+        
+    if request.user.profile == project.owner:
+        context = {
+            'type' : 'project',
+            'name' : project.title,
+        }
+        if request.method=='POST':
+            project.delete()
             messages.info(request, ("Project deleted !"))
-            queryset.delete()
-        else:
-            messages.error(
-                request, ("You are not authorised to delete this project !"))
+        return render(request, 'confirm_delete.html', context)
 
+    else:
+        messages.error(request, ("You are not authorised to delete this project !"))
         return redirect('account')

@@ -23,6 +23,15 @@ class Project(models.Model):
     class Meta:
         ordering = ['-vote_ratio', '-vote_count', '-created']
 
+    @property
+    def imageURL(self):
+        try:
+            url = self.featured_image.url
+        except:
+            # if project dont have an image then display the default image or you can leave it empty
+            url = 'http://127.0.0.1:8000/img/default.jpg'
+        return url
+
     
     # so that we dont need to query it as a function in project view
     @property                   
