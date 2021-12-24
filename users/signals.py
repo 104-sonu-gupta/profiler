@@ -50,7 +50,10 @@ def updateProfile(sender, instance, created, **kwargs):
         user.save()
 
 def deleteUser(sender, instance, **kwargs):     # deleting user when user deleted from admin userProfile
-    user = instance.user                        # because user will still be left out in Users table
-    user.delete()
+    try:
+        user = instance.user                        # because user will still be left out in Users table
+        user.delete()
+    except:
+        pass
 
 post_delete.connect(deleteUser, sender = userProfile)       # simple way 

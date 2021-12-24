@@ -121,7 +121,10 @@ def updateProject(request, id):
             messages.success(request, "Project updated !")
         return redirect('account')
 
-    content = {'form': form}
+    content = {
+        'form': form,
+        'project': project,
+    }
     return render(request, 'projects/update.html', content)
 
 
