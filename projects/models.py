@@ -21,7 +21,8 @@ class Project(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['-vote_ratio', '-vote_count', '-created']
+        # ordering = ['vote_ratio', '-vote_count', '-created']
+        ordering = ['title']
 
     @property
     def imageURL(self):

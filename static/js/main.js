@@ -47,7 +47,12 @@ for (let i = 0; i < tags.length; i++) {
     });
 }
 
+document.querySelector('#dropDown').addEventListener('click', e => {
+    document.querySelector('.drop-down').classList.toggle('drop-down--active');
+});
+
 let anonymous_sender = document.querySelector('.unknown_user');
 anonymous_sender.addEventListener('click', e => {
     alert('This user is not registed with us');
 });
+

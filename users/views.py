@@ -15,6 +15,7 @@ def loginPage(request):
 
     if request.user.is_authenticated:
         return redirect('account')
+
     username = ''
     if request.method == 'POST':
         username = request.POST['username']
@@ -23,7 +24,10 @@ def loginPage(request):
             user = User.objects.get(username=username)
         except:
             messages.error(request, ('Username does not exists'))
+            return redirect('login')
+        
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
             messages.success(request, ('Logged In Successfully! '))

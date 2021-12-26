@@ -1,10 +1,116 @@
-
 {% load static %}
+
+<style>
+
+.table_center {
+    display: table-cell;
+    vertical-align: middle;
+}
+.drop-down {
+    display: inline-block;
+    position: relative;
+}
+
+.drop-down__menu-box {
+    position: absolute;
+    width: 150%;
+    left: -10px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    visibility: hidden;
+    opacity: 0;
+    margin-top: 5px;
+}
+
+.drop-down__menu {
+    margin: 0;
+    padding: 0 13px;
+    list-style: none;
+}
+.drop-down__menu-box:before {
+    content: '';
+    background-color: transparent;
+    border-right: 8px solid transparent;
+    position: absolute;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid #fff;
+    border-top: 8px solid transparent;
+    top: -15px;
+    right: 18px;
+    opacity: .75;
+}
+
+.drop-down__menu-box:after {
+    content: '';
+    background-color: transparent;
+}
+
+.drop-down__item {
+    font-size: 13px;
+    padding: 13px 0;
+    text-align: left;
+    font-weight: 500;
+    color: #909dc2;
+    cursor: pointer;
+    position: relative;
+    border-bottom: 1px solid #e0e2e9;
+}
+
+.drop-down__item-icon {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 0px;
+    fill: #8995b6;
+}
+
+.drop-down__item:hover .drop-down__item-icon {
+    fill: #3f4156;
+}
+
+.drop-down__item:hover {
+    color: #3f4156;
+}
+
+.drop-down__item:last-of-type {
+    border-bottom: 0;
+}
+
+.drop-down--active .drop-down__menu-box {
+    visibility: visible;
+    opacity: 1;
+    margin-top: 15px;
+}
+
+.drop-down__item:before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 28px;
+    background-color: #3f4156;
+    left: -13px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+}
+
+.drop-down__item:hover:before {
+    display: block;
+}
+
+</style>
+
 <!-- Header Section -->
 <header class="header">
     <div class="container container--narrow">
         <a href="{% url 'profiles' %}" class="header__logo">
-            <img src="{% static 'img/logo.svg' %} " alt="DevSearch Logo" />
+            <img src="{% static 'img/logo.svg' %} " alt="Logo" />
         </a>
         <nav class="header__nav">
             <input type="checkbox" id="responsive-menu" />
@@ -17,12 +123,29 @@
                 <li class="header__menuItem"><a href="{% url 'projects' %}">Projects</a></li>
 
                 {% if request.user.is_authenticated %}
-                    <li class="header__menuItem"><a href="{% url 'inbox' %}">My Mails</a></li>
-                    <li class="header__menuItem"><a href="{% url 'account' %}">My Account</a></li>
+
+                    <div class="table_center">
+                        <div class="drop-down">
+                            <div id="dropDown">
+                                <a class="drop-down__name" style="color: whitesmoke; cursor: pointer;"> {{ request.user }} </a>
+                            </div>
+                        
+                            <div class="drop-down__menu-box">
+                                <ul class="drop-down__menu">
+                                    <li class="drop-down__item text-center"><a href="{% url 'account' %}">My Account</a></li>
+                                    <li class="drop-down__item text-center"><a href="{% url 'inbox' %}">My Mails</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                     <li class="header__menuItem"><a href="{% url 'logout' %}" class="btn btn--sub">Logout</a></li>
                 {% else %}
-                <li class="header__menuItem"><a href="{% url 'login' %}" class="btn btn--sub">Login/Sign Up</a></li>
+                    <li class="header__menuItem"><a href="{% url 'login' %}" class="btn btn--sub">Login/Sign Up</a></li>
                 {% endif %}
+
+            
+
             </ul>
         </nav>
     </div>
