@@ -4,11 +4,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from .forms import *
 from .models import *
-from projects.models import Project
 from .utils import *
-from datetime import datetime
+from projects.models import Project
 
 
 def loginPage(request):
@@ -59,9 +59,6 @@ def registerUser(request):
             messages.success(request, (" User account created !"))
             login(request, user)    # created and login this user directly
             return redirect('edit-account')
-        else:
-            messages.error(
-                request, (" An error has been occcurred, try to register again !"))
 
     context = {
         'page': 'register',
@@ -215,13 +212,12 @@ def inbox(request):
     }
     return render(request, 'inbox.html', content)
 
-
 @login_required(login_url='login')
 def viewMessage(request, id):
     profile = request.user.profile
     userMessage = profile.messages.get(pk=id)
     userMessage.is_read = True
-    userMessage.read_at = datetime.now()
+    userMessage.read_at = timezone.now()
     userMessage.save()
     
     try:

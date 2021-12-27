@@ -63,7 +63,7 @@ class Message(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     body = models.TextField()
     is_read = models.BooleanField(default=False, null=True)
-    read_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    read_at = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

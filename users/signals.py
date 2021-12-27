@@ -3,7 +3,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from projects.forms import ProjectForm
-from .models import userProfile
+from .models import Message, userProfile
 
 from django.core.mail import message, send_mail
 from django.conf import settings
@@ -20,14 +20,15 @@ def createProfile(sender, instance, created, **kwargs):
             email = user.email,                          
         )
         subject = 'Welcome to Profiler'
-        welcome_msg = f"""
-        Hello {user.first_name} {user.last_name},
+        welcome_msg = f""" Hello {user.first_name} {user.last_name},
+        
         Thank you so much for allowing us to help you with your recent account opening. 
+        
         We are committed to providing our customers with the highest level of service and the most innovative profiles possible.
+        
         Respectfully,
         Tony Stark
         CEO Profiler
-        
         """
         send_mail(
             subject,
@@ -36,6 +37,15 @@ def createProfile(sender, instance, created, **kwargs):
             [profile.email],
             fail_silently=False,
         )
+        
+        welcome_message = Message.objects.create(
+            name = 'Tony Stark',
+            email = 'admin@profiler.com',
+            title = subject,
+            body = welcome_msg,
+            reciever = profile,
+        )
+
 
 @receiver(post_save, sender = userProfile)                  # decorator way
 def updateProfile(sender, instance, created, **kwargs):
