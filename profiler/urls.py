@@ -32,6 +32,8 @@ urlpatterns = [
     path('projects/', include('projects.urls')),
     
     path('', include('users.urls')),
+
+    path('blogs/', include('blogs.urls')),
     
     path('api/', include('api.urls')),
     

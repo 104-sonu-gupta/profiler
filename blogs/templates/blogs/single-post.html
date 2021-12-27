@@ -1,0 +1,72 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<main class="singlePost my-md">
+    <div class="container">
+        <div class="layout">
+            <div class="column column--1of3">
+                <h3 class="singlePost__subtitle text-center">Related latest posts</h3>
+                <div class="singlePost__toolStack">
+                   
+                </div>
+
+            </div>
+            <div class="column column--2of3">
+                <img class="singlePost__preview" src="{{ post.featured_image.url }}" alt="post thumbnail" />
+                
+                <span class="singlePost__developer"><em>Written by </em></span> <a href="{% url 'user-profile' post.author.id %}" class="singlePost__developer">{{ post.author.name }}</a><br>
+                <a><em> - {{ post.created_on.date }} </em></a>
+                
+                <h2 class="singlePost__title">{{ post.title }}</h2>
+                
+                <div class="singlePost__info">
+                    <p>{{ post.content|linebreaksbr }}</p>
+                </div>
+
+                <div class="comments">
+                    <h3 class="singlePost__subtitle">Feedback</h3>
+                    <h5 class="project--rating">
+                        {{ post.vote_ratio }}% Postitive Feedback ({{post.vote_count}} Vote{{ post.vote_count|pluralize:",s" }})
+                    </h5>
+
+                    <form action="{% url 'single-project' post.id %}" method="POST">    {% csrf_token %}
+                        <div class="form__field">
+                            <label for="id_value">{{ form.value.label }} </label>
+                            {{ form.value }}
+                        </div>
+                        <div class="form__field">
+                            <label for="id_body">{{ form.body.label }} </label>
+                            {{ form.body }}
+                        </div>
+                        <input class="btn btn--sub btn--lg" type="submit" value="Add review" />
+                    </form>
+
+
+                    <div class="commentList">
+
+                        {% for review in reviews %}
+                            {% if review.body %}
+                                <div class="comment">
+                                    <a href="{% url 'user-profile' review.author.id %}">
+                                        <img class="avatar avatar--md" src="{{ review.author.profile_pic.url }}" alt="user" />
+                                    </a>
+                                    <div class="comment__details">
+                                        <a href="{% url 'user-profile' review.author_id %}" class="comment__author">{{review.author.name}}</a>
+                                        <p class="comment__info"> {{ review.body|linebreaksbr }} </p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+    
+
+    
+ 
+
+{% endblock content %}

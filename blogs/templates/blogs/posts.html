@@ -1,0 +1,58 @@
+{% extends 'base.html' %} 
+{% block content %}
+<!-- Main Section -->
+<main class="home">
+    <section class="hero-section text-center">
+        <div class="container container--narrow">
+            <div class="hero-section__box">
+                <h2>Learn something new everyday </h2>
+                <h2>from our<span> developers</span></h2>
+            </div>
+
+            <div class="hero-section__search">
+                <form class="form" action="#" method="get">
+                    <div class="form__field">
+                        <label for="formInput#search"> Search bar </label>
+                        <input class="input input--text" id="formInput#search" type="text" name="search_query" value="{{search_query}}" placeholder="Search by title, tags ... " />
+                    </div>
+                    <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="projectsList">
+        <div class="container">
+            <div class="grid grid--three">
+                {% for post in posts %}
+                    <div class="column">
+                        <div class="card project">
+                            <a href="{% url 'single-post' post.id %}" class="project">
+                                <img class="project__thumbnail" src="{{ post.featured_image.url }}" alt="post thumbnail" />
+                                <div class="card__body">
+                                    <h3 class="project__title">{{post.title}}</h3>
+                                    <p><a class="project__author" href="{% url 'user-profile' post.author.id %}">By {{ post.author.name }}</a></p>
+                                    <p class="project--rating"><span style="font-weight: bold">{{ post.vote_ratio }}%</span> Postitive Feedback ({{project.vote_count}} Vote{{ project.vote_count|pluralize:",s" }})</p>
+                                    <p class="dev__info">{{ post.content|slice:"120" }}</p><br>
+                                    <div class="project__tags">
+                                        {% for tag in post.tags.all %}
+                                            <span class="tag tag--pill tag--main">
+                                                <small>{{ tag }}</small>
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+    
+            
+</main>
+
+{% endblock content %}

@@ -409,7 +409,7 @@ img {
   Single Projects
 ========================*/
 
-.singleProject .column--1of3 {
+.singlePost .column--1of3 {
   order: 2;
 }
 
@@ -475,6 +475,66 @@ img {
 }
 
 .singleProject__subtitle {
+  text-transform: uppercase;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--color-sub-light);
+  margin-bottom: 1rem;
+}
+/*=======================
+  Single Post
+========================*/
+
+.singlePost .column--1of3 {
+  order: 3;
+}
+
+@media screen and (min-width: 1081px) {
+  .singlePost .column--1of3 {
+    order: 3;
+  }
+  .singlePost .column--2of3 {
+    order: 2;
+  }
+}
+
+.singlePost__toolStack {
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+
+.singlePost__preview {
+  height: 50vh;
+  object-fit: cover;
+  object-position: top center;
+  margin-bottom: 3rem;
+  border-radius: 0.7rem;
+}
+
+.singlePost__developer {
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.singlePost__title {
+  font-size: 3.6rem;
+  font-weight: 700;
+  color: var(--color-sub);
+  margin-bottom: 3rem;
+}
+
+.project__author{
+  font-size: 1.4rem;
+  font-style: italic;
+}
+
+.project--rating{
+  margin-bottom: 1.6em;
+  margin-top: .5em;
+}
+
+.singlePost__subtitle {
   text-transform: uppercase;
   font-size: 2.4rem;
   font-weight: 700;

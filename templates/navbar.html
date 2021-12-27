@@ -121,6 +121,7 @@
             <ul class="header__menu">
                 <li class="header__menuItem"><a href="{% url 'profiles' %}">Developers</a></li>
                 <li class="header__menuItem"><a href="{% url 'projects' %}">Projects</a></li>
+                <li class="header__menuItem"><a href="{% url 'posts' %}">Blogs</a></li>
 
                 {% if request.user.is_authenticated %}
 
@@ -134,6 +135,7 @@
                                 <ul class="drop-down__menu">
                                     <li class="drop-down__item text-center"><a href="{% url 'account' %}">My Account</a></li>
                                     <li class="drop-down__item text-center"><a href="{% url 'inbox' %}">My Mails</a></li>
+                                    <li class="drop-down__item text-center"><a href="{% url 'user-posts' %}">My Posts</a></li>
                                 </ul>
                             </div>
                         </div>
