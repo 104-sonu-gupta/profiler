@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'blogs.apps.BlogsConfig',
     'rest_framework',
     'corsheaders',
+    'ckeditor',
 
 ]
 REST_FRAMEWORK = {
@@ -201,3 +202,10 @@ EMAIL_PORT = 25
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# for setting the width of the ckedit as child div of parent div of form, jisse wo form ke bahar na nikle
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width': '100%'
+    },
+}

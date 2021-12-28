@@ -25,6 +25,9 @@ from django.conf.urls.static import static
 
 from django.contrib.auth import views as auth_views
 
+admin.site.site_header = 'Profiler'
+admin.site.index_title = 'Profiler Admin Access Control'
+
 urlpatterns = [
 
     path('admin/', admin.site.urls),
