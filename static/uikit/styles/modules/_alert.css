@@ -1,4 +1,5 @@
 .alert {
+  z-index: 9999;
   display: inline-flex;
   gap: 3rem;
   justify-content: space-between;
@@ -6,12 +7,15 @@
   padding: 1.5rem 2.5rem;
   border-radius: 3px;
   border: 1px solid var(--color-white-light);
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin: 1rem;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 .alert,
 .alert > .alert__message {
+  
   background-color: var(--color-main-light);
   color: var(--color-main);
   font-size: 1.4rem;

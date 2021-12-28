@@ -47,12 +47,19 @@ for (let i = 0; i < tags.length; i++) {
     });
 }
 
+// For the drop down list
 document.querySelector('#dropDown').addEventListener('click', e => {
     document.querySelector('.drop-down').classList.toggle('drop-down--active');
 });
 
-let anonymous_sender = document.querySelector('.unknown_user');
-anonymous_sender.addEventListener('click', e => {
-    alert('This user is not registed with us');
-});
+// For anonymous_sender who is not registered in profiler
+// let anonymous_sender = document.querySelector('.unknown_user');
+// anonymous_sender.addEventListener('click', e => {
+//     alert('This user is not registed with us');
+// });
 
+// For disappering the flash messages
+
+setTimeout( () => {
+    document.querySelector('.alert').style.display = 'none';
+}, 3000)
