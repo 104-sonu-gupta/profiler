@@ -11,8 +11,11 @@
                 <h3>Update Account Details</h3>
             </div>
             <form action="{% url 'edit-account' %} " method="POST" class="form auth__form" enctype="multipart/form-data">
-                {% csrf_token %} {% for field in form %}
-                <div class="form__field">{{ field.label_tag }} {{ field }}</div>
+                {% csrf_token %} 
+                {{ form.media }}
+                {% for field in form %}
+                    {{ field.label_tag }} 
+                    {{ field }}
                 {% endfor %}
 
                 <div class="auth__actions">

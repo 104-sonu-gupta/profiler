@@ -1,6 +1,8 @@
 from django.db import models
 from users.models import userProfile
 import uuid
+from ckeditor.fields import RichTextField
+
 # Create your models here.
 
 
@@ -8,7 +10,7 @@ class Project(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     owner = models.ForeignKey(userProfile, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    description = RichTextField(blank=True, null=True)
     featured_image = models.ImageField(null=True, blank=True, default='default.jpg')
     demo_link = models.CharField(max_length=2000, blank=True, null=True)
     source_link = models.CharField(max_length=2000, blank=True, null=True)

@@ -8,10 +8,13 @@
             </div>
 
             <form method="post" enctype="multipart/form-data">
-                {% csrf_token %} {% for field in form %}
+                {% csrf_token %} 
+                {{ form.media }}
+                
+                {% for field in form %}
 
                 <div class="form__field">
-                    <label for="formInput#text">{{ field.label }} </label>
+                    {{ field.label }}
                     {{field}}
                 </div>
 

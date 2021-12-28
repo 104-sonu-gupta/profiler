@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 from django.contrib.auth.models import User
-
+from ckeditor.fields import RichTextField
 # Create your models here.
 
 
@@ -13,7 +13,7 @@ class userProfile(models.Model):
     name  = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     headline = models.CharField(max_length=255,null=True, blank=True)
-    bio = models.TextField(null=True, blank=True)
+    bio = RichTextField(null=True, blank=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to = 'profiles/', default = 'profiles/userDefault.png')
     social_github = models.CharField(max_length=255, null=True, blank=True)
     social_twitter = models.CharField(max_length=255, null=True, blank=True)
@@ -61,7 +61,7 @@ class Message(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     title = models.CharField(max_length=255, null=True, blank=True)
-    body = models.TextField()
+    body = RichTextField(null=True, blank=True)
     is_read = models.BooleanField(default=False, null=True)
     read_at = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)

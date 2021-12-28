@@ -37,7 +37,7 @@
                 <h3 class="singleProject__subtitle">About the Project</h3>
                 
                 <div class="singleProject__info">
-                    <p>{{ project.description }}</p>
+                    <p>{{ project.description|safe }}</p>
                 </div>
 
                 <div class="comments">
@@ -50,11 +50,11 @@
 
                     <form action="{% url 'single-project' project.id %}" method="POST">    {% csrf_token %}
                         <div class="form__field">
-                            <label for="id_value">{{ form.value.label }} </label>
+                            {{ form.value.label }}
                             {{ form.value }}
                         </div>
                         <div class="form__field">
-                            <label for="id_body">{{ form.body.label }} </label>
+                            {{ form.body.label }}
                             {{ form.body }}
                         </div>
                         <input class="btn btn--sub btn--lg" type="submit" value="Add review" />

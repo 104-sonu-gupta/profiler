@@ -82,7 +82,6 @@
                                             <p class="project--rating">
                                                 <span style="font-weight: bold;">{{ project.vote_ratio }}%</span> Postitive Feedback ({{project.vote_count}} Vote{{ project.vote_count|pluralize:",s" }})
                                             </p>
-                                            
                                             <div class="project__tags">
                                                 {% for tag in project.tags.all %}
                                                     <span class="tag tag--pill tag--main">
