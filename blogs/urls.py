@@ -15,4 +15,6 @@ urlpatterns = [
     
     path('delete-post/<str:id>/', views.delete_post, name='delete-post'),
     
+    path('tag-view/<str:id>/', views.tags_view, name='tag-view'),
+    
 ]

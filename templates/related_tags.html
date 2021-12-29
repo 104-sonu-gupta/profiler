@@ -1,0 +1,79 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<main class="home">
+    <!-- Related Posts -->
+
+    {% if posts %}
+        <section class="projectsList">
+            <div class="container">
+                <p style="margin-bottom: 5px;">Tag : &nbsp;<small class="tag tag--pill tag--sub tag--lg">{{ tag }}</small></p>
+                <h3 style="margin-bottom: 5px; margin-top: 6rem;">Related Posts : </h3>
+                <div class="grid grid--three">
+                    {% for post in posts %}
+                        <div class="column">
+                            <div class="card project">
+                                <a href="{% url 'single-post' post.id %}" class="project">
+                                    <img class="project__thumbnail" src="{{ post.featured_image.url }}" alt="post thumbnail" />
+                                    <div class="card__body">
+                                        <h3 class="project__title">{{post.title}}</h3>
+                                        <p><a class="project__author" href="{% url 'user-profile' post.author.id %}">By {{ post.author.name }}</a></p>
+                                        <p class="project--rating"><span style="font-weight: bold">{{ post.vote_ratio }}%</span> Postitive Feedback ({{project.vote_count}} Vote{{ project.vote_count|pluralize:",s" }})</p>
+                                        <p class="dev__info">{{ post.content|slice:"120" }}</p><br>
+                                        <div class="project__tags">
+                                            {% for tag in post.tags.all %}
+                                                <span class="tag tag--pill tag--main">
+                                                    <small>{{ tag }}</small>
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+            
+    <!-- Related Projects -->
+
+    {% if projects %}
+    <section class="projectsList">
+        <div class="container">
+            <h3 style="margin-bottom: 5px;">Related Projects : </h3>
+                <div class="grid grid--three">
+                    {% for project in projects %}
+                        <div class="column">
+                            <div class="card project">
+                                <a href="{% url 'single-project' project.id %}" class="project">
+                                    <img class="project__thumbnail" src="{{ project.imageURL }}" alt="project thumbnail" />
+                                    <div class="card__body">
+                                        <h3 class="project__title">{{project.title}}</h3>
+                                        <p><a class="project__author" href="{% url 'user-profile' project.owner.id %}">By {{ project.owner.name }}</a></p>
+                                        <p class="project--rating"><span style="font-weight: bold">{{ project.vote_ratio }}%</span> Postitive Feedback ({{project.vote_count}} Vote{{ project.vote_count|pluralize:",s" }})</p>
+                                        <div class="project__tags">
+                                            {% for tag in project.tags.all %}
+                                                <span class="tag tag--pill tag--main">
+                                                    <small>{{ tag }}</small>
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    
+
+    
+            
+</main>
+
+{% endblock content %}

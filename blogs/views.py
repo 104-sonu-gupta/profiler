@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+
 from .models import Post
 from .forms import PostForm
-from django.db.models import F
+
+from projects.models import Tag
 
 
 def blogs(request):
@@ -103,3 +105,15 @@ def delete_post(request, id):
         'name' : post.title,
     }
     return render(request, 'confirm_delete.html', content)
+
+
+def tags_view(request, id):
+    tag = Tag.objects.get(pk=id)
+    posts = tag.post_set.all()
+    projects = tag.project_set.all()
+    context = {
+        'tag' : tag,
+        'posts' : posts,
+        'projects' : projects,
+    }
+    return render(request, 'related_tags.html', context)
