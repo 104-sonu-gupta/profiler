@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from .models import Post
 from .forms import PostForm
-# Create your views here.
+from django.db.models import F
+
 
 def blogs(request):
     # posts = Post.objects.filter(status = 1)
@@ -16,8 +17,11 @@ def blogs(request):
 def single_post(request, id):
 
     post = Post.objects.get(pk = id)
+    related_posts = Post.objects.filter(tags__in = post.tags.all()).exclude(pk=id).order_by('-updated_on')
+    
     context = {
         'post' : post,
+        'related_posts' : related_posts,
     }
     return render(request, 'blogs/single-post.html', context)
 

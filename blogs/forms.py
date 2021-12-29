@@ -10,10 +10,9 @@ class PostForm(ModelForm):
         model = Post
         exclude = ['vote_count', 'vote_ratio', 'author']
 
-        # widgets = {
-        #     'tags': forms.CheckboxSelectMultiple(),
-        #     'title': forms.TextInput(attrs={'class': "input", 'placeholder': 'Enter title'}),
-        # }
+        widgets = {
+            'tags': forms.CheckboxSelectMultiple(),
+        }
 
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)

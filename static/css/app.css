@@ -1013,3 +1013,63 @@ img {
 .drop-down__item:hover:before {
     display: block;
 }
+
+
+/*=======================
+  Account Settings
+========================*/
+
+
+.posts__table {
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+    padding: 0 3rem;
+    background: var(--color-white);
+}
+
+.posts__table tr {
+    width: 100%;
+}
+
+.posts__table tr > td {
+    padding: 2rem 0;
+}
+
+.posts__table tr:not(:last-child) td {
+    border-bottom: 2px solid var(--color-white-light);
+}
+
+.posts__thumbnail {
+    width: 23%;
+    min-width: 10rem;
+}
+
+.posts__thumbnail img {
+    padding-right: 3rem;
+    height: 10rem;
+    object-fit: contain;
+}
+
+.posts__tableInfo {
+    width: 100%;
+}
+
+.posts__tableInfo h4,
+.posts__tableInfo a {
+    margin-top: -30px;
+    margin-right: -15px;
+    text-decoration: underline;
+    padding-right: 1rem;
+    width: auto;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--color-sub);
+}
+
+.posts__tableInfo p {
+    font-size: 1.4rem;
+}
+
+.posts__tableActions {
+    text-align: right;
+}

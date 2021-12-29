@@ -25,3 +25,27 @@
     flex-basis: 100% !important;
   }
 }
+
+.post-layout {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.post-layout > .column {
+  margin-bottom: 3rem;
+}
+
+.post-layout > .column.column--1of3 {
+  flex-basis: 36%;
+}
+
+.post-layout > .column.column--2of3 {
+  flex-basis: 60%;
+}
+
+@media screen and (max-width: 1080px) {
+  .post-layout > .column {
+    flex-basis: 100% !important;
+  }
+}
