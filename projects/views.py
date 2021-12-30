@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from .forms import ProjectForm, ReviewForm
-from projects.models import *
+from projects.models import Project, Review
+from tags.models import Tag
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -111,11 +112,14 @@ def updateProject(request, id):
     if request.method == "POST":
         # (use regex or replace for unknown input) 
         newtags = (request.POST['newtags']).replace(',', " ").split()
+
+        print(newtags)
+
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             project = form.save()
             for tag in newtags:
-                tag = tag.upper()
+                tag = tag.upper()   # capitalize all tags 
                 curr_tag, created = Tag.objects.get_or_create(name = tag)
                 project.tags.add(curr_tag)
             messages.success(request, "Project updated !")

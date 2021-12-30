@@ -24,7 +24,6 @@
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert--{{message.tags}}">
-                {% comment %} <div class="alert alert--{{message.tags}}" style="position: absolute; left: 50%; top: 16%; transform: translate(-50%, -50%); opacity: 0.9;"> {% endcomment %}
                     <p class="alert__message">{{ message }}</p>
                     <button class="alert__close">⨯</button>
                 </div>

@@ -17,7 +17,4 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ['id', 'owner', 'project', 'body','value', 'created']
 
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'created']
 

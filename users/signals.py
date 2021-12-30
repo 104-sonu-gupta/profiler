@@ -30,13 +30,13 @@ def createProfile(sender, instance, created, **kwargs):
         Tony Stark
         CEO Profiler
         """
-        send_mail(
-            subject,
-            welcome_msg, 
-            settings.EMAIL_HOST_USER, 
-            [profile.email],
-            fail_silently=False,
-        )
+        # send_mail(
+        #     subject,
+        #     welcome_msg, 
+        #     settings.EMAIL_HOST_USER, 
+        #     [profile.email],
+        #     fail_silently=False,
+        # )
         
         welcome_message = Message.objects.create(
             name = 'Tony Stark',

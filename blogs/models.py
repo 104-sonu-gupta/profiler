@@ -1,11 +1,10 @@
 from django.db import models
-from projects.models import Tag
+from tags.models import Tag
 from users.models import userProfile
 import uuid
 from ckeditor.fields import RichTextField
 
 # Create your models here.
-
 
 
 STATUS_CHOICES = (
@@ -18,7 +17,7 @@ class Post(models.Model):
     author = models.ForeignKey(userProfile, on_delete= models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200, unique=True)
     content = RichTextField(null=True, blank=True)
-    featured_image = models.ImageField(null=True, blank=True, default='default.jpg')
+    featured_image = models.ImageField(null=True, blank=True, upload_to = 'posts/', default='posts/default.jpg')
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
     vote_count = models.IntegerField(default=0)
     vote_ratio = models.IntegerField(default=0)

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'users.apps.UsersConfig',
     'blogs.apps.BlogsConfig',
+    'tags.apps.TagsConfig',
     'rest_framework',
     'corsheaders',
     'ckeditor',
