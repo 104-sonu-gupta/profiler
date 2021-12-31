@@ -4,10 +4,12 @@
 <main class="home">
     <!-- Related Posts -->
 
+    <div class="container projectsList">
+        <p style="margin-bottom: 5px;">Tag : &nbsp;<small class="tag tag--pill tag--sub tag--lg">{{ tag }}</small></p>
+    </div>
     {% if posts %}
         <section class="projectsList">
             <div class="container">
-                <p style="margin-bottom: 5px;">Tag : &nbsp;<small class="tag tag--pill tag--sub tag--lg">{{ tag }}</small></p>
                 <h3 style="margin-bottom: 5px; margin-top: 6rem;">Related Posts : </h3>
                 <div class="grid grid--three">
                     {% for post in posts %}

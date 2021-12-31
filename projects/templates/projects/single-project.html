@@ -10,8 +10,8 @@
                 <div class="singleProject__toolStack">
                     
                     {% for tag in project.tags.all %}
-                        <span class="tag tag--pill tag--sub tag--lg">
-                            <small>{{ tag }}</small>
+                        <span class="tag tag--pill tag--main">
+                            <a href="{% url 'tag-view' tag.id %}"> <small>{{ tag }}</small></a>
                         </span>
                     {% endfor %}
                 </div>

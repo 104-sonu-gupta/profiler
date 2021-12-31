@@ -1074,29 +1074,26 @@ img {
     text-align: right;
 }
 
-
-/*=======================
-  Tagify Settings
-========================*/
-
-
-.tagify--outside {
-    border: 0;
+.taginput{
+    min-width: 24rem;
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    border-radius: 0.5rem;
+    border: 2px solid var(--color-light);
+    transition: all 0.3s ease-in-out;
+    background-color: var(--color-bg);
 }
 
-.tagify--outside .tagify__input {
-    order: -1;
-    flex: 100%;
-    border: 1px solid var(--tags-border-color);
-    margin-bottom: 1em;
-    transition: 0.1s;
+.taginput:focus,
+.taginput:active{
+    outline: none;
+    border: 2px solid var(--color-main);
 }
 
-.tagify--outside .tagify__input:hover {
-    border-color: var(--tags-hover-border-color);
+.donotdisplay{
+    display: none;
+} 
+.tagify{
+    height: 10rem;
 }
 
-.tagify--outside.tagify--focus .tagify__input {
-    transition: 0s;
-    border-color: var(--tags-focus-border-color);
-}

@@ -73,7 +73,15 @@ def createProject(request):
     developer = request.user.profile
     form = ProjectForm()
     if request.method == 'POST':
-        newtags = (request.POST['newtags']).replace(',', " ").split()
+        tagsReceived = (request.POST['newtags']).replace(',', " ").split()
+        # print(tagsReceived)
+        newtags = list()
+        for tag in tagsReceived:
+            tag = tag.strip('[{""}]')
+            tag = tag[8:]
+            print(tag)
+            newtags.append(tag)
+            
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project_instance = form.save(commit=False)
@@ -111,16 +119,27 @@ def updateProject(request, id):
     form = ProjectForm(instance=project)
     if request.method == "POST":
         # (use regex or replace for unknown input) 
-        newtags = (request.POST['newtags']).replace(',', " ").split()
+        tagsReceived = (request.POST['newtags']).replace(',', " ").split()
+        # print(tagsReceived)
+        newtags = list()
+        for tag in tagsReceived:
+            tag = tag.strip('[{""}]')
+            tag = tag[8:]
+            print(tag)
+            newtags.append(tag)
 
-        print(newtags)
+        # clear all the associated tags in project and then again assign them
+        # so that we dont need to use API for this
+        project.tags.clear()
 
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
             project = form.save()
+
             for tag in newtags:
                 tag = tag.upper()   # capitalize all tags 
                 curr_tag, created = Tag.objects.get_or_create(name = tag)
+
                 project.tags.add(curr_tag)
             messages.success(request, "Project updated !")
         return redirect('account')
@@ -136,7 +155,6 @@ def updateProject(request, id):
 def deleteProject(request, id):
 
     # method 2 to check for correct user able to update project
-    # 
     try:
         project = Project.objects.get(pk=id)
     except:

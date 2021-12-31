@@ -84,12 +84,11 @@
                                             </p>
                                             <div class="project__tags">
                                                 {% for tag in project.tags.all %}
-                                                    <span class="tag tag--pill tag--main">
-                                                        <small>{{ tag }}</small>
-                                                    </span>
+                                                    <a href="{% url 'tag-view' tag.id %}" class="tag tag--pill tag--main">
+                                                        <small>{{tag}}</small></>
+                                                    </a>
                                                 {% endfor %}
                                             </div>
-
                                         </div>
                                     </a>
                                 </div>

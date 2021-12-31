@@ -20,5 +20,5 @@ urlpatterns = [
 
     path('projects/<str:id>/vote/', views.voteProject),
 
-    path('remove-tag/', views.removeTagFromProject),
+    # path('remove-tag/', views.removeTagFromProject),
 ]

@@ -55,17 +55,18 @@ def voteProject(request, id):
     serializer = ProjectSerializer(project, many=False)
     return Response(serializer.data)
 
-@api_view(['DELETE'])
-def removeTagFromProject(request):
-    # get data from javascript
-    tagId = request.data['tag']
-    projectId = request.data['project']
+# Implemented by first removing all the tags from project and them re-assigning them 
+# @api_view(['DELETE'])
+# def removeTagFromProject(request):
+#     # get data from javascript
+#     tagId = request.data['tag']
+#     projectId = request.data['project']
 
-    # retrive records from database with same credentials
-    tag = Tag.objects.get(pk = tagId)
-    project = Project.objects.get(pk = projectId)
+#     # retrive records from database with same credentials
+#     tag = Tag.objects.get(pk = tagId)
+#     project = Project.objects.get(pk = projectId)
 
-    #delete the selected tag
-    project.tags.remove(tag)
+#     #delete the selected tag
+#     project.tags.remove(tag)
     
-    return Response('Tag deleted')
+#     return Response('Tag deleted')

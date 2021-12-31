@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from .models import Post
 from .forms import PostForm
 
-from projects.models import Tag
+from tags.models import Tag
 
 
 def blogs(request):
@@ -43,9 +43,20 @@ def create_post(request):
 
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
+        tagsReceived = (request.POST['newtags']).replace(',', " ").split()
+        newtags = list()
+        for tag in tagsReceived:
+            tag = tag.strip('[{""}]')
+            tag = tag[8:].upper()
+            newtags.append(tag)
+
         if form.is_valid():
             instance = form.save(commit=False)
             instance.author = request.user.profile
+            for tag in newtags:
+                tag = tag.upper()
+                curr_tag, created = Tag.objects.get_or_create(name = tag)
+                instance.tags.add(curr_tag)
             instance.save()
             messages.success(request, "New post created Successfully !")
         return redirect('user-posts')
@@ -71,8 +82,20 @@ def edit_post(request, id):
 
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, instance = post)
+        tagsReceived = (request.POST['newtags']).replace(',', " ").split()
+        newtags = list()
+        for tag in tagsReceived:
+            tag = tag.strip('[{""}]')
+            tag = tag[8:].upper()
+            newtags.append(tag)
+
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            for tag in newtags:
+                tag = tag.upper()
+                curr_tag, created = Tag.objects.get_or_create(name = tag)
+                instance.tags.add(curr_tag)
+            instance.save()
             messages.success(request, "Post updated Successfully !")
         return redirect('user-posts')
 

@@ -19,47 +19,70 @@ if (searchForm) {
     }
 }
 
-let tags = document.getElementsByClassName('edit-tags');
-// we are doing this by sending this data via API so that we dont need to send csrf token,
-// we can also send this data through forms
+// let tags = document.getElementsByClassName('edit-tags');
+// // we are doing this by sending this data via API so that we dont need to send csrf token,
+// // we can also send this data through forms
 
-for (let i = 0; i < tags.length; i++) {
-    tags[i].addEventListener('click', e => {
-        let tagId = e.target.dataset.tag;
-        let projectId = e.target.dataset.project;
-        console.log(tagId);
-        console.log(projectId);
+// for (let i = 0; i < tags.length; i++) {
+//     tags[i].addEventListener('click', e => {
+//         let tagId = e.target.dataset.tag;
+//         let projectId = e.target.dataset.project;
+//         console.log(tagId);
+//         console.log(projectId);
 
-        fetch('http://127.0.0.1:8000/api/remove-tag/', {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                tag: tagId,
-                project: projectId,
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                e.target.remove();
-            });
-    });
-}
+//         fetch('http://127.0.0.1:8000/api/remove-tag/', {
+//             method: 'DELETE',
+//             headers: {
+//                 'Content-type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 tag: tagId,
+//                 project: projectId,
+//             }),
+//         })
+//             .then(response => response.json())
+//             .then(data => {
+//                 e.target.remove();
+//             });
+//     });
+// }
 
 // For the drop down list
 document.querySelector('#dropDown').addEventListener('click', e => {
     document.querySelector('.drop-down').classList.toggle('drop-down--active');
 });
 
-// For anonymous_sender who is not registered in profiler
-// let anonymous_sender = document.querySelector('.unknown_user');
-// anonymous_sender.addEventListener('click', e => {
-//     alert('This user is not registed with us');
-// });
-
 // For disappering the flash messages
 
-setTimeout( () => {
+setTimeout(() => {
     document.querySelector('.alert').style.display = 'none';
-}, 3000)
+}, 3000);
+
+
+
+// Taggging
+
+let tags = document.getElementsByClassName('edit-tags');
+var input = document.querySelector('.taginput');
+console.log(input)
+var tagify = new Tagify(input);
+
+// tagify.addTags(["C++", "C", "JAVASCRIPT"])
+
+for (let i = 0; i < tags.length; i++) {
+    let tagElement = tags[i].textContent.split(' ')[0];
+    console.log(tagElement);
+    tagify.addTags(tagElement);
+}
+
+
+
+
+// For anonymous_sender who is not registered in profiler
+
+let anonymous_sender = document.querySelector('.unknown_user');
+anonymous_sender.addEventListener('click', e => {
+    alert('This user is not registed with us');
+});
+
+
